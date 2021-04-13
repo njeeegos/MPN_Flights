@@ -1,0 +1,336 @@
+﻿@model MPNFlights.Models.QueryFlightsViewModel
+
+@{
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            window.onload = function () {
+                alert("@ViewBag.Message");
+            };
+        </script>
+    }
+    <h3>
+        Unesite gradove za pretraživanje letova
+    </h3>
+    using (Html.BeginForm("SearchFlights", "Flights"))
+    {
+
+        <div class="form-group">
+            <label>Od:</label>
+            <input asp-for="@Model.CityFrom" />
+            <span asp-validation-for="@Model.CityFrom"></span>
+        </div>
+        <div class="form-group">
+            <label>Do:</label>
+            <input asp-for="@Model.CityTo" />
+            <span asp-validation-for="@Model.CityTo"></span>
+        </div>
+        <div class="form-group">
+            <label>Datum polaska:</label>
+            <input type="date" asp-for="@Model.DepartureDate" />
+            <span asp-validation-for="@Model.DepartureDate"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Pretražite samo direktne letove</label>
+            <input type="checkbox" asp-for="@Model.direktnoIliSaPresedanjem" />
+        </div>
+        <div class="form-group">
+            <label>U jednom smeru</label>
+            <input type="checkbox" checked asp-for="@Model.jednosmernaKarta" />
+        </div>
+
+        <div class="form-group">
+            <h5>Popuniti ukoliko želite povratnu kartu</h5>
+            <label>Datum povratka:</label>
+            <input type="date" asp-for="@Model.ReturnDate" />
+            <span asp-validation-for="@Model.ReturnDate"></span>
+        </div>
+
+        @Html.AntiForgeryToken();
+        <button class="btn btn-primary" type="submit">Pretraži</button>
+
+    }
+    <br />
+
+    if (Model != null && Model.FlightsList.Count() > 0)
+    {
+        <h3> Direktni letovi </h3>
+        <div>
+            <table class="table table-bordered">
+                <tr class="table-success">
+                    <th>
+                        Od
+                    </th>
+                    <th>
+                        Do
+                    </th>
+                    <th>
+                        Datum polaska
+                    </th>
+                    <th>
+                        Vreme polaska
+                    </th>
+                    <th>
+                        Datum dolaska
+                    </th>
+                    <th>
+                        Vreme dolaska
+                    </th>
+                    <th>
+                        Cena karte (u €)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in Model.FlightsList)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.From.name, "Details", new { id = item.From.id })
+                            @*@item.From.name*@
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.To.name, "Details", new { id = item.To.id })
+                            @*@item.To.name*@
+                        </td>
+                        <td>
+                            @item.DepartureDate
+                        </td>
+                        <td>
+                            @item.DepartureTime
+                        </td>
+                        <td>
+                            @item.ArrivalDate
+                        </td>
+                        <td>
+                            @item.ArrivalTime
+                        </td>
+                        <td>
+                            @item.TicketPrice
+                        </td>
+                        <td>
+                            @Html.ActionLink("Rezerviši", "BookFlight", "Flights", new { id1 = item.id })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+
+    }
+
+    if (Model != null && Model.FlightsListBack.Count() > 0)
+    {
+        <div>
+            <table class="table table-bordered">
+                <tr class="table-success">
+                    <th>
+                        Od
+                    </th>
+                    <th>
+                        Do
+                    </th>
+                    <th>
+                        Datum polaska
+                    </th>
+                    <th>
+                        Vreme polaska
+                    </th>
+                    <th>
+                        Datum dolaska
+                    </th>
+                    <th>
+                        Vreme dolaska
+                    </th>
+                    <th>
+                        Cena karte (u €)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in Model.FlightsListBack)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.From.name, "Details", new { id = item.From.id })
+
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.To.name, "Details", new { id = item.To.id })
+
+                        </td>
+                        <td>
+                            @item.DepartureDate
+                        </td>
+                        <td>
+                            @item.DepartureTime
+                        </td>
+                        <td>
+                            @item.ArrivalDate
+                        </td>
+                        <td>
+                            @item.ArrivalTime
+                        </td>
+                        <td>
+                            @item.TicketPrice
+                        </td>
+                        <td>
+                            @Html.ActionLink("Rezerviši", "BookFlight", "Flights", new { id1 = item.id })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+    if (Model != null && Model.Presedanja.Count() > 0)
+    {
+        <h3> Letovi sa presedanjem </h3>
+        <div>
+            <table class="table table-bordered">
+                <tr class="table-success">
+                    <th>
+                        Od
+                    </th>
+                    <th>
+                        Preko
+                    </th>
+                    <th>
+                        Do
+                    </th>
+                    <th>
+                        Datum polaska
+                    </th>
+                    <th>
+                        Vreme polaska
+                    </th>
+                    <th>
+                        Datum dolaska
+                    </th>
+                    <th>
+                        Vreme dolaska
+                    </th>
+                    <th>
+                        Cena karte (u €)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in Model.Presedanja)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Od.name, "Details", new { id = item.Od.id })
+                            @*@item.Od.name*@
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Preko.name, "Details", new { id = item.Preko.id })
+                            @*@item.Preko.name*@
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Do.name, "Details", new { id = item.Do.id })
+                            @*@item.Do.name*@
+                        </td>
+                        <td>
+                            @item.LetOdPreko.DepartureDate
+                        </td>
+                        <td>
+                            @item.LetOdPreko.DepartureTime
+                        </td>
+                        <td>
+                            @item.LetPrekoDo.ArrivalDate
+                        </td>
+                        <td>
+                            @item.LetPrekoDo.ArrivalTime
+                        </td>
+                        <td>
+                            @(item.LetOdPreko.TicketPrice + item.LetPrekoDo.TicketPrice)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Rezerviši", "BookFlight", "Flights", new { id1 = item.LetOdPreko.id, id2 = item.LetPrekoDo.id })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+    if (Model != null && Model.PresedanjaNazad.Count() > 0)
+    {
+        <div>
+            <table class="table table-bordered">
+                <tr class="table-success">
+                    <th>
+                        Od
+                    </th>
+                    <th>
+                        Preko
+                    </th>
+                    <th>
+                        Do
+                    </th>
+                    <th>
+                        Datum polaska
+                    </th>
+                    <th>
+                        Vreme polaska
+                    </th>
+                    <th>
+                        Datum dolaska
+                    </th>
+                    <th>
+                        Vreme dolaska
+                    </th>
+                    <th>
+                        Cena karte (u €)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in Model.PresedanjaNazad)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.Od.name, "Details", new { id = item.Od.id })
+
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Preko.name, "Details", new { id = item.Preko.id })
+
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.Do.name, "Details", new { id = item.Do.id })
+
+                        </td>
+                        <td>
+                            @item.LetOdPreko.DepartureDate
+                        </td>
+                        <td>
+                            @item.LetOdPreko.DepartureTime
+                        </td>
+                        <td>
+                            @item.LetPrekoDo.ArrivalDate
+                        </td>
+                        <td>
+                            @item.LetPrekoDo.ArrivalTime
+                        </td>
+                        <td>
+                            @(item.LetOdPreko.TicketPrice + item.LetPrekoDo.TicketPrice)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Rezerviši", "BookFlight", "Flights", new { id1 = item.LetOdPreko.id, id2 = item.LetPrekoDo.id })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
+}

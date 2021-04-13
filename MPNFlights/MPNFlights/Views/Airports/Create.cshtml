@@ -1,0 +1,29 @@
+﻿@model MPNFlights.Models.Airport 
+@{
+    <form asp-controller="Airports" asp-action="Save" method="post">
+        <input hidden asp-for="@Model.id" />
+        <div class="form-group">
+            <label>Grad:</label>
+            <input asp-for="@Model.city" />
+            <span asp-validation-for="@Model.city" />
+        </div>
+        <div class="form-group">
+            <label>Država:</label>
+            <input asp-for="@Model.country" />
+            <span asp-validation-for="@Model.country" />
+        </div>
+        <div class="form-group">
+            <label>Skraćenica:</label>
+            <input asp-for="@Model.name" />
+            <span asp-validation-for="@Model.name" />
+        </div>
+        <div class="form-group">
+            <label>Puno ime:</label>
+            <input asp-for="@Model.fullName" />
+            <span asp-validation-for="@Model.fullName" />
+        </div>
+        @Html.AntiForgeryToken()
+
+        <button class="btn btn-primary" type="submit">Dodaj</button>
+    </form>
+}

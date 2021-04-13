@@ -1,0 +1,85 @@
+﻿@model MPNFlights.Models.AdminFlightsViewModel
+@{
+    <div>
+        <a href="./Create/">Dodaj novi let</a>
+    </div>
+
+    <br />
+
+    <div>
+        @Html.ActionLink("Aerodromi", "Index", "Airports", new { })
+    </div>
+
+    <br />
+
+    <div>
+        <table class="table table-bordered">
+            <tr class="table-success">
+                <th>
+                    Od
+                </th>
+                <th>
+                    Do
+                </th>
+                <th>
+                    Datum polaska
+                </th>
+                <th>
+                    Vreme polaska
+                </th>
+                <th>
+                    Datum dolaska
+                </th>
+                <th>
+                    Vreme dolaska
+                </th>
+                <th>
+                    Broj slobodnih mesta
+                </th>
+                <th>
+                    Cena karte (u €)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+
+            @foreach (var item in Model.FlightsList)
+            {
+             <tr>
+                 <td>
+                     @Html.ActionLink(item.From.name, "Details", new { id = item.From.id })
+                     
+                 </td>
+                 <td>
+                     @Html.ActionLink(item.To.name, "Details", new { id = item.To.id })
+                     @*@item.To.name*@
+                 </td>
+                <td>
+                    @item.DepartureDate
+                </td>
+                <td>
+                    @item.DepartureTime
+                </td>
+                <td>
+                    @item.ArrivalDate
+                </td>
+                <td>
+                    @item.ArrivalTime
+                </td>
+                <td>
+                    @item.SeatsAvailable
+                </td>
+                 <td>
+                    @item.TicketPrice
+                </td>
+
+                <td>
+                    @Html.ActionLink("Izmeni", "Edit", new { id = item.id}) |
+                    @Html.ActionLink("Obriši", "Delete", new { id = item.id })
+                </td>
+             </tr>
+            }
+        </table>
+    </div>
+}

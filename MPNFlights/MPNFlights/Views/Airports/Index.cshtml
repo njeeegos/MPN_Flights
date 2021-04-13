@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MPNFlights.Models.Airport>
+@{
+    if (Model != null && Model.Count() > 0)
+    {
+        <div>
+            @Html.ActionLink("Dodaj novi aerodrom", "Create", "Airports")
+        </div>
+
+        <br />
+
+        <div>
+            <table class="table table-bordered">
+                <tr class="table-success">
+                    <th>
+                        Skraćenica
+                    </th>
+                    <th>
+                        Grad
+                    </th>
+                    <th>
+                        Država
+                    </th>
+                    <th>
+                        Puno ime
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.ActionLink(item.name, "Details", "Flights", new { id = item.id })
+                        </td>
+                        <td>
+                            @item.city
+                        </td>
+                        <td>
+                            @item.country
+                        </td>
+                        <td>
+                            @item.fullName
+                        </td>
+                        <td>
+                            @Html.ActionLink("Obriši", "Delete", "Airports", new { id = item.id })
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+}

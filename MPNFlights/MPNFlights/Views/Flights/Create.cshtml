@@ -1,0 +1,63 @@
+﻿@model MPNFlights.Models.CreateFlightViewModel
+@{
+    <form asp-controller="Flights" asp-action="Save" method="post">
+        <input hidden asp-for="@Model.Disable" />
+        <input hidden asp-for="@Model.Flight.id" />
+        <div class="form-group">
+            <label>Od:</label>
+            <select asp-for="@Model.AirportFromId" asp-items="@(new SelectList(Model.Airports, "id", "fullName"))"
+        disabled="@(Model.Disable ? "disabled" : null)"></select>
+            @*<select asp-for="@Model.AirportFromId" asp-items="@(new SelectList(Model.Airports, "id", "fullName"))"></select>*@
+            <span asp-validation-for="@Model.AirportFromId"></span>
+        </div>
+        <div class="form-group">
+            <label>Do:</label>
+            <select asp-for="@Model.AirportToId" asp-items="@(new SelectList(Model.Airports, "id", "fullName"))"
+        disabled="@(Model.Disable ? "disabled" : null)"></select>
+            @*<select asp-for="@Model.AirportToId" asp-items="@(new SelectList(Model.Airports, "id", "fullName"))"></select>*@
+            <span asp-validation-for="@Model.AirportToId"></span>
+        </div>
+        <div class="form-group">
+            <label>Datum polaska:</label>
+            <input type="date" asp-for="@Model.Flight.DepartureDate" />
+            <span asp-validation-for="@Model.Flight.DepartureDate" />
+        </div>
+        <div class="form-group">
+            <label>Vreme polaska:</label>
+            <input type="time" asp-for="@Model.Flight.DepartureTime" />
+            <span asp-validation-for="@Model.Flight.DepartureTime" />
+        </div>
+        <div class="form-group">
+            <label>Datum dolaska:</label>
+            <input type="date" asp-format="{0:dd.MM.yyyy.}" asp-for="@Model.Flight.ArrivalDate" />
+            <span asp-validation-for="@Model.Flight.ArrivalDate" />
+        </div>
+        <div class="form-group">
+            <label>Vreme dolaska:</label>
+            <input type="time" asp-for="@Model.Flight.ArrivalTime" />
+            <span asp-validation-for="@Model.Flight.ArrivalTime" />
+        </div>
+        <div class="form-group">
+            <label>Slobodnih mesta:</label>
+            <input type="number" asp-for="@Model.Flight.SeatsAvailable" />
+            <span asp-validation-for="@Model.Flight.SeatsAvailable" />
+        </div>
+        <div class="form-group">
+            <label>Cena karte (u €):</label>
+            <input type="number" asp-for="@Model.Flight.TicketPrice" />
+            <span asp-validation-for="@Model.Flight.TicketPrice" />
+        </div>
+        @Html.AntiForgeryToken()
+
+        @if (!Model.Disable)
+        {
+            <button class="btn btn-primary" type="submit">Dodaj</button>
+        }
+
+        else
+        {
+            <button class="btn btn-primary" type="submit">Sacuvaj</button>
+        }
+    </form>
+
+}
